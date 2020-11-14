@@ -1,11 +1,12 @@
 package airplaneBookingSystem;
 
-public class Date {
+public class Date implements Comparable<Date>{
 	
 	private int month;
 	private int day;
 	private int hour;
 	private int minute;
+	
 	public Date(int month, int day, int hour, int minute) {
 		this.month = month;
 		this.day = day;
@@ -35,7 +36,31 @@ public class Date {
 	
 	@Override
 	public String toString() {
-		return month + "/" + day + " " + hour + ":" + minute;
+		String str = month + "/" + day + " ";
+		if(hour < 10) {
+			str += "0";
+		}
+		str += hour + ":";
+		if(minute < 10) {
+			str += "0";
+		}
+		str += minute;
+		return str;
+	}
+
+
+	public boolean equalsDay(Date other) {
+		if(month == other.month && day == other.day) {
+			return true;
+		}
+		return false;
+	}
+
+	//should compare month > day > hour > minute
+	@Override
+	public int compareTo(Date o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
 

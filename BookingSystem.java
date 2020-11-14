@@ -1,6 +1,7 @@
 package airplaneBookingSystem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -15,7 +16,8 @@ public class BookingSystem {
 		airlines.add(new Airline("Delta Airlines"));
 		airlines.add(new Airline("American Airlines"));
 
-		// adds an airplane for a combination for every from and to combination with 2 - 5 flights every day
+		// adds an airplane for a combination for every from and to combination with 2 -
+		// 5 flights every day
 		Random r = new Random();
 		for (int month = 1; month <= 12; month++) {
 			for (int day = 1; day <= 31; day++) {
@@ -29,7 +31,7 @@ public class BookingSystem {
 					for (Airline airline : airlines) {
 						for (String from : DESTINATIONS) {
 							for (String to : DESTINATIONS) {
-								int numberOfFlights = 2 + r.nextInt(3); //gives random 2 - 5 flights
+								int numberOfFlights = 2 + r.nextInt(3); // gives random 2 - 5 flights
 								for (int i = 0; i < numberOfFlights; i++) {
 									int hour = r.nextInt(24);
 									int minute = (int) Math.round(r.nextDouble() * 3) * 15; // gives 0, 15, 30, or 45
@@ -43,21 +45,38 @@ public class BookingSystem {
 			}
 		}
 
-		
-		
-
 		BookingSystem bs = new BookingSystem();
 		Scanner sc = new Scanner(System.in);
-
 		
+		//think about getting more user information such as number of passengers, preferred seating(?)
+
 		System.out.println("Choose a city to fly from: " + bs.listOfCities());
 		String from = sc.nextLine();
 		System.out.println("Choose a city to fly to: " + bs.listOfCities());
 		String to = sc.nextLine();
 		System.out.println("Pick a date in this format: MM, DD, Hour(0-24), Minute");
-		String date = sc.nextLine();
+		String d = sc.nextLine();
 		System.out.println("Searching for flight within parameters...");
 
+		Date date = new Date(d);
+		
+		// looks into database of airlines and grab all flights on the same day
+		ArrayList<Airplane> allAirplanes = new ArrayList<>();
+		for(Airline airline : airlines) {
+			allAirplanes.addAll(airline.getAirplanes());
+		}
+		ArrayList<Airplane> filteredByDestination = Airline.filterDestination(allAirplanes, from, to);
+		ArrayList<Airplane> filteredAirplanes = Airline.filterDate(filteredByDestination, date);
+		Collections.sort(filteredAirplanes); // implement compareTo for Airplane and Date
+		
+		System.out.println("Here are the airplanes on the same day. Please type in the number of the desired flight.");
+		for(int i = 1; i <= filteredAirplanes.size(); i++) {
+			System.out.println(i + ": " + filteredAirplanes.get(i - 1));
+		}
+		int chosenNumber = sc.nextInt();
+		Airplane chosenAirplane = filteredAirplanes.get(chosenNumber - 1);
+		System.out.println("You have chosen airplane #" + chosenNumber + ": " + chosenAirplane);
+		
 		
 		sc.close();
 	}

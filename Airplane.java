@@ -1,6 +1,6 @@
 package airplaneBookingSystem;
 
-public class Airplane {
+public class Airplane implements Comparable<Airplane>{
 	
 	private String from;
 	private String to;
@@ -27,6 +27,24 @@ public class Airplane {
 	public String toString() {
 		return "from " + from + " to " + to + " on " + date;
 		}
+
+	public Date getDate() {
+		return date;
+	}
+	
+	public String getFrom() {
+		return from;
+	}
+	
+	public String getTo() {
+		return to;
+	}
+
+	//should compare by destinations first, then date (can use compareTo in Date class)
+	@Override
+	public int compareTo(Airplane o) {
+		return 0;
+	}
 	
 	//methods for seats
 }
