@@ -23,5 +23,10 @@ public class Airplane {
 		return hash;
 	}
 	
+	@Override
+	public String toString() {
+		return "from " + from + " to " + to + " on " + date;
+		}
+	
 	//methods for seats
 }
