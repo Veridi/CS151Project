@@ -24,6 +24,11 @@ public class Airline {
 		}
 	}
 
+	public void editAirplane(int hash, Airplane a){
+		removeAirplane(hash);
+		addAirplane(a);
+	}
+
 	public String getName() {
 		return name;
 	}
