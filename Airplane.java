@@ -47,4 +47,7 @@ public class Airplane implements Comparable<Airplane>{
 	}
 	
 	//methods for seats
+	public void randomizeSeats() {
+		// 
+	}
 }

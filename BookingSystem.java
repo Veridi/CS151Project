@@ -37,6 +37,7 @@ public class BookingSystem {
 									int minute = (int) Math.round(r.nextDouble() * 3) * 15; // gives 0, 15, 30, or 45
 									Date date = new Date(month, day, hour, minute);
 									airline.addAirplane(new Airplane(from, to, date));
+									//airplane.randomizeSeats();
 								}
 							}
 						}
@@ -77,6 +78,9 @@ public class BookingSystem {
 		Airplane chosenAirplane = filteredAirplanes.get(chosenNumber - 1);
 		System.out.println("You have chosen airplane #" + chosenNumber + ": " + chosenAirplane);
 		
+		// get user's information: # of passengers, names, age 
+		// select seats (based on # of passengers) in desired airplane
+		// confirm / printout ticket
 		
 		sc.close();
 	}
