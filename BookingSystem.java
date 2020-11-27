@@ -16,7 +16,7 @@ public class BookingSystem {
 	static Scanner sc;
 
 	public static void main(String[] args) {
-
+		BookingSystemView bsv = new BookingSystemView();
 		airlines = new ArrayList<>();
 		airlines.add(new Airline("United Airlines"));
 		airlines.add(new Airline("Delta Airlines"));
