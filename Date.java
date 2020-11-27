@@ -22,7 +22,10 @@ public class Date implements Comparable<Date>{
 		this.day = Integer.parseInt(strArr[1]);
 		this.hour = Integer.parseInt(strArr[2]);
 		this.minute = Integer.parseInt(strArr[3]);
+		System.out.println("selected date: " + month + " " + day + " " + hour + " " + minute);
 	}
+	
+	
 	
 	@Override
 	public int hashCode() {
