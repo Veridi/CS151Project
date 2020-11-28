@@ -97,4 +97,9 @@ public class Airplane implements Comparable<Airplane> {
 		}
 
 	}
+
+	public void takeSeat(int chosenRow, int chosenCol) {
+		seats[chosenRow][chosenCol] = true;
+		
+	}
 }

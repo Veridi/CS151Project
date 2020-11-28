@@ -5,33 +5,34 @@ import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class BookingSystem {
 
-	private static final String[] DESTINATIONS = new String[] { "OAKLAND", "SAN_JOSE", "SACRAMENTO" };
+	public static final String[] DESTINATIONS = new String[] { "OAKLAND", "SAN_JOSE", "SACRAMENTO" };
 
 	static ArrayList<Airline> airlines;
+	ArrayList<Airplane> filteredAirplanes;
 	UserInformation userInfo;
 	Airplane chosenAirplane;
+	String chosenFrom;
+	String chosenTo;
+	Date chosenDate;
 	static Scanner sc;
-	
-	private static LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<>(1);
-    private static BookingSystemView view;
-    private static Airplane airplane;
-    
 
 	public static void main(String[] args) {
-		
-		BookingSystemView bsv = new BookingSystemView(queue);
-		view = BookingSystemView.init(queue);
-		airplane = new Airplane();
-		Controller controller = new Controller(view, airplane, queue);
 
-        controller.mainLoop();
-        view.dispose();
-        queue.clear();
-		/*
+		BookingSystem bs = new BookingSystem();
+		BookingSystemView bsv = new BookingSystemView(bs);
+		//sc = new Scanner(System.in);
+		//bs.selectUserFlight();
+		//bs.getUserInformation();
+		//bs.selectSeats();
+		// confirm / printout ticket
+		//sc.close();
+
+	}
+
+	public BookingSystem() {
 		airlines = new ArrayList<>();
 		airlines.add(new Airline("United Airlines"));
 		airlines.add(new Airline("Delta Airlines"));
@@ -69,90 +70,82 @@ public class BookingSystem {
 			}
 		}
 
-		BookingSystem bs = new BookingSystem();
-		sc = new Scanner(System.in);
-		bs.selectUserFlight();
-		bs.getUserInformation();
-		bs.selectSeats();
-		// confirm / printout ticket
-		sc.close();
-		*/
 	}
-	
-	
+
+	public void updateSeats(int chosenRow, int chosenCol) {
+		chosenAirplane.takeSeat(chosenRow, chosenCol);
+	}
+
 	public void selectSeats() {
-		
-		
-		for(int i = 0; i < userInfo.getNumberOfPassengers(); i++) {
-			System.out.println("Choose a seat for passenger #" + (i+1));
-			//print seats
-			System.out.println("Available seats are marked with an 'O', 'X' are unavailable");
-			chosenAirplane.printSeats();
-			System.out.print("Enter chosen row: ");
-			int chosenRow = sc.nextInt();
-			System.out.print("Enter chosen column: ");
-			int chosenCol = sc.nextInt();
-			//check if selected seat is actually available
-			//update the selected seat to unavailable
-		}
-		
-		
-		sc.close();
+
+		System.out.println("Choose a seat for passenger");
+		// print seats
+		System.out.println("Available seats are marked with an 'O', 'X' are unavailable");
+		chosenAirplane.printSeats();
+		System.out.print("Enter chosen row: ");
+		int chosenRow = sc.nextInt();
+		System.out.print("Enter chosen column: ");
+		int chosenCol = sc.nextInt();
+		// check if selected seat is actually available
+		// update the selected seat to unavailable
+
+	}
+
+	public void updateUserInformation(String passengerName, int passengerAge) {
+		userInfo = new UserInformation(passengerName, passengerAge);
 	}
 
 	public void getUserInformation() {
-		System.out.println("Please input the number of passengers.");
-		int numberOfPassengers = sc.nextInt();
-		String[] passengerNames = new String[numberOfPassengers];
-		int[] passengerAge = new int[numberOfPassengers];
-		for(int i = 0; i < numberOfPassengers; i++) {
-			System.out.println("Enter passenger #" + (i + 1) + "'s first and last name.");
-			//String name = sc.nextLine();
-			String firstName = sc.next();
-			String lastName = sc.next();
-			passengerNames[i] = firstName + " " + lastName;
-			System.out.println(passengerNames[i]);
-			System.out.println("Enter passenger #" + (i + 1) + "'s age");
-			int age = sc.nextInt();
-			passengerAge[i] = age;
-		}
-		userInfo = new UserInformation(numberOfPassengers, passengerNames, passengerAge);
+		String passengerNames;
+		int passengerAge;
+		System.out.println("Enter passenger's first and last name.");
+		// String name = sc.nextLine();
+		String firstName = sc.next();
+		String lastName = sc.next();
+		passengerNames = firstName + " " + lastName;
+		System.out.println(passengerNames);
+		System.out.println("Enter passenger's age");
+		int age = sc.nextInt();
+		passengerAge = age;
+		userInfo = new UserInformation(passengerNames, passengerAge);
+
 	}
-
-	public void selectUserFlight() {
-
-		// think about getting more user information such as number of passengers,
-		// preferred seating(?)
-
-		System.out.println("Choose a city to fly from: " + listOfCities());
-		String from = sc.nextLine();
-		System.out.println("Choose a city to fly to: " + listOfCities());
-		String to = sc.nextLine();
-		System.out.println("Pick a date in this format: MM, DD, Hour(0-24), Minute");
-		String d = sc.nextLine();
-		System.out.println("Searching for flight within parameters...");
-
-		Date date = new Date(d);
-
-		// looks into database of airlines and grab all flights on the same day
+	
+	public void updateFlightInformation(String from, String to, String month, String day, String hour, String minute) {
+		int chosenMonth = Integer.parseInt(month);
+		int chosenDay = Integer.parseInt(day);
+		int chosenHour = Integer.parseInt(hour);
+		int chosenMinute = Integer.parseInt(minute);
+		chosenFrom = from;
+		chosenTo = to;
+		chosenDate = new Date(chosenMonth, chosenDay, chosenHour, chosenMinute);
+		findReasonableFlight(chosenDate, chosenFrom, chosenTo);
+	}
+	
+	public void findReasonableFlight(Date date, String from, String to) {
 		ArrayList<Airplane> allAirplanes = new ArrayList<>();
 		for (Airline airline : airlines) {
 			allAirplanes.addAll(airline.getAirplanes());
 		}
-		ArrayList<Airplane> filteredByDestination = Airline.filterDestination(allAirplanes, from, to);
-		ArrayList<Airplane> filteredAirplanes = Airline.filterDate(filteredByDestination, date);
-		Collections.sort(filteredAirplanes); // implement compareTo for Airplane and Date
-
-		System.out.println("Here are the airplanes on the same day. Please type in the number of the desired flight.");
-		for (int i = 1; i <= filteredAirplanes.size(); i++) {
-			System.out.println(i + ": " + filteredAirplanes.get(i - 1));
-		}
-		int chosenNumber = sc.nextInt();
-		chosenAirplane = filteredAirplanes.get(chosenNumber - 1);
-		System.out.println("You have chosen airplane #" + chosenNumber + ": " + chosenAirplane);
+		ArrayList<Airplane> filteredByDestination = Airline.filterDestination(allAirplanes, chosenFrom, chosenTo);
 		
-		//chosenAirplane.printSeats();
+		Collections.sort(filteredByDestination); // implement compareTo for Airplane and Date
+		filteredAirplanes = Airline.filterDate(filteredByDestination, chosenDate);
 		
+		
+		//prints list of reasonable flights
+//		System.out.println("Here are the airplanes on the same day. Please type in the number of the desired flight.");
+//		for (int i = 1; i <= filteredAirplanes.size(); i++) {
+//			System.out.println(i + ": " + filteredAirplanes.get(i - 1));
+//		}
+	}
+	
+	public void updateChosenFlight(Airplane airplane) {
+		chosenAirplane = airplane;
+	}
+	
+	public ArrayList<Airplane> getFilteredAirplanes(){
+		return filteredAirplanes;
 	}
 
 	public String listOfCities() {
