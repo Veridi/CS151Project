@@ -3,6 +3,7 @@ package airplaneBookingSystem;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -38,7 +39,7 @@ public class BookingSystemView extends JFrame {
 	}
 
 	public void showNextSlide() {
-		clearCurrentScreen();
+		panel.removeAll();
 		if (screenNumber == 0) {
 			dateAndDestinationSelectScreen();
 		} else if (screenNumber == 1) {
@@ -52,15 +53,9 @@ public class BookingSystemView extends JFrame {
 		} else if (screenNumber == 5) {
 			printTicketScreen();
 		}
-
-		screenNumber++;
-	}
-
-	public void clearCurrentScreen() {
-		panel.removeAll();
 		panel.revalidate();
 		panel.repaint();
-
+		screenNumber++;
 	}
 
 	public void dateAndDestinationSelectScreen() {
@@ -100,6 +95,7 @@ public class BookingSystemView extends JFrame {
 
 		panel.add(confirm);
 		panel.setLayout(new FlowLayout());
+		System.out.println("confirm button added");
 		confirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -109,7 +105,6 @@ public class BookingSystemView extends JFrame {
 				String departDay = (String) departureDay.getSelectedItem();
 				String departHour = (String) departureHour.getSelectedItem();
 				String departMinute = (String) departureMinute.getSelectedItem();
-
 				model.updateFlightInformation(departureLocation, arrivalLocation, departMonth, departDay, departHour,
 						departMinute);
 				
@@ -119,18 +114,30 @@ public class BookingSystemView extends JFrame {
 	}
 
 	public void flightSelectScreen() {
-		System.out.println("slide 1 ran");
-		JButton confirm = new JButton("ConfirmFlightSelectScreen");
-		panel.add(confirm);
-		panel.setLayout(new FlowLayout());
-		confirm.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("confirm pressed");
-				showNextSlide();
-			}
-		});
-	}
+		ArrayList<Airplane> arr = model.getFilteredAirplanes();
+        Airplane[] airplanes = new Airplane[arr.size()];
+        for(int i = 0; i < airplanes.length; i++) {
+            airplanes[i] = model.getFilteredAirplanes().get(i);
+        }
+        JLabel flightSelect = new JLabel("Select a flight ");
+
+        JComboBox<Airplane> listOfFlights = new JComboBox<>(airplanes);
+
+        JButton confirm =  new JButton("Confirm");
+
+        panel.add(flightSelect);
+        panel.add(listOfFlights);
+        panel.add(confirm);
+        panel.setLayout(new FlowLayout());
+        confirm.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Airplane flight = (Airplane) listOfFlights.getSelectedItem();
+                model.updateChosenFlight(flight);
+                showNextSlide();
+            }
+        });
+    }
 
 	public void userInfoSelectScreen() {
 

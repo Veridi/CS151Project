@@ -11,8 +11,11 @@ public class BookingSystem {
 	public static final String[] DESTINATIONS = new String[] { "OAKLAND", "SAN_JOSE", "SACRAMENTO" };
 
 	static ArrayList<Airline> airlines;
+	ArrayList<Airplane> filteredAirplanes;
 	UserInformation userInfo;
 	Airplane chosenAirplane;
+	String chosenFrom;
+	String chosenTo;
 	Date chosenDate;
 	static Scanner sc;
 
@@ -113,9 +116,10 @@ public class BookingSystem {
 		int chosenDay = Integer.parseInt(day);
 		int chosenHour = Integer.parseInt(hour);
 		int chosenMinute = Integer.parseInt(minute);
+		chosenFrom = from;
+		chosenTo = to;
 		chosenDate = new Date(chosenMonth, chosenDay, chosenHour, chosenMinute);
-		
-		
+		findReasonableFlight(chosenDate, chosenFrom, chosenTo);
 	}
 	
 	public void findReasonableFlight(Date date, String from, String to) {
@@ -123,26 +127,25 @@ public class BookingSystem {
 		for (Airline airline : airlines) {
 			allAirplanes.addAll(airline.getAirplanes());
 		}
-		ArrayList<Airplane> filteredByDestination = Airline.filterDestination(allAirplanes, from, to);
-		ArrayList<Airplane> filteredAirplanes = Airline.filterDate(filteredByDestination, date);
-		Collections.sort(filteredAirplanes); // implement compareTo for Airplane and Date
+		ArrayList<Airplane> filteredByDestination = Airline.filterDestination(allAirplanes, chosenFrom, chosenTo);
+		
+		Collections.sort(filteredByDestination); // implement compareTo for Airplane and Date
+		filteredAirplanes = Airline.filterDate(filteredByDestination, chosenDate);
 		
 		
 		//prints list of reasonable flights
-		System.out.println("Here are the airplanes on the same day. Please type in the number of the desired flight.");
-		for (int i = 1; i <= filteredAirplanes.size(); i++) {
-			System.out.println(i + ": " + filteredAirplanes.get(i - 1));
-		}
+//		System.out.println("Here are the airplanes on the same day. Please type in the number of the desired flight.");
+//		for (int i = 1; i <= filteredAirplanes.size(); i++) {
+//			System.out.println(i + ": " + filteredAirplanes.get(i - 1));
+//		}
 	}
-
-	public void selectUserFlight() {
-
-		//int chosenNumber = sc.nextInt();
-		//chosenAirplane = filteredAirplanes.get(chosenNumber - 1);
-		//System.out.println("You have chosen airplane #" + chosenNumber + ": " + chosenAirplane);
-
-		// chosenAirplane.printSeats();
-
+	
+	public void updateChosenFlight(Airplane airplane) {
+		chosenAirplane = airplane;
+	}
+	
+	public ArrayList<Airplane> getFilteredAirplanes(){
+		return filteredAirplanes;
 	}
 
 	public String listOfCities() {
