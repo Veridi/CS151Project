@@ -1,6 +1,8 @@
 package airplaneBookingSystem;
 
 import java.awt.FlowLayout;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -9,54 +11,40 @@ import javax.swing.JTextField;
 
 public class BookingSystemView extends JFrame {
 
-	int slideNumber;
+	private JFrame bookingFrame;
+	private static LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<Message>(1);
 	
-	public BookingSystemView() {
-		
-
-        add(new JLabel("Red"));
-        JTextField redNumber = new JTextField(10);
-        redNumber.setText("a");
-        add(redNumber);
-        
-        add(new JLabel("Green"));
-        JTextField greenNumber = new JTextField(10);
-        greenNumber.setText("b");
-        add(greenNumber);
-        
-        add(new JLabel("Blue"));
-        JTextField blueNumber = new JTextField(10);
-        blueNumber.setText("c");
-        add(blueNumber);
-
-        JButton update = new JButton("Update");
-        add(update);
-        setVisible(true);
-        setSize(500, 500);
-        setLayout(new FlowLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		
-		slideNumber = 0;
-		showSlide(slideNumber);
+	public static BookingSystemView init(LinkedBlockingQueue<Message> queue) {
+		return new BookingSystemView(queue);
 	}
 	
-	public void showSlide(int slideNumber) {
-		switch(slideNumber){
-			case 0 : flightSelectScreen();
-			
-		};
-	}
-	
-	public void flightSelectScreen() {
+	BookingSystemView(LinkedBlockingQueue<Message> queue) {
+		BookingSystemView.queue = queue;
 		
-	}
-	
-	public void userInfoSelectScreen() {
+		JButton newBooking = new JButton("Book a Flight");
+		JButton confirm = new JButton("Confirm");
 		
-	}
-	
-	public void seatSelectScreen() {
+		newBooking.addActionListener(event -> {  // Start booking a flight
+			try {
+				BookingSystemView.queue.add(new NewBookingMessage());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 		
+		confirm.addActionListener(event -> { // confirm
+			try {
+				BookingSystemView.queue.remove();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		
+		bookingFrame.add(newBooking);
+		bookingFrame.add(confirm);
+		bookingFrame.pack();
+		bookingFrame.setLayout(new FlowLayout());
+		bookingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		bookingFrame.setVisible(true);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class BookingSystem {
 
@@ -14,9 +15,23 @@ public class BookingSystem {
 	UserInformation userInfo;
 	Airplane chosenAirplane;
 	static Scanner sc;
+	
+	private static LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<>(1);
+    private static BookingSystemView view;
+    private static Airplane airplane;
+    
 
 	public static void main(String[] args) {
-		BookingSystemView bsv = new BookingSystemView();
+		
+		BookingSystemView bsv = new BookingSystemView(queue);
+		view = BookingSystemView.init(queue);
+		airplane = new Airplane();
+		Controller controller = new Controller(view, airplane, queue);
+
+        controller.mainLoop();
+        view.dispose();
+        queue.clear();
+		/*
 		airlines = new ArrayList<>();
 		airlines.add(new Airline("United Airlines"));
 		airlines.add(new Airline("Delta Airlines"));
@@ -61,7 +76,7 @@ public class BookingSystem {
 		bs.selectSeats();
 		// confirm / printout ticket
 		sc.close();
-
+		*/
 	}
 	
 	

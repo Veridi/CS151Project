@@ -8,6 +8,10 @@ public class Airplane implements Comparable<Airplane> {
 	private String to;
 	private Date date;
 	private boolean[][] seats;
+	
+	public Airplane() {
+		
+	}
 
 	public Airplane(String from, String to, Date date) {
 		this.from = from;
