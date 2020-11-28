@@ -2,34 +2,27 @@
 package airplaneBookingSystem;
 
 public class UserInformation {
-    private String[] name;
-    private int[] age;
-    private int passengers;
+    private String name;
+    private int age;
 
-    public UserInformation(int numPassengers, String[] name, int[] age){
-    	passengers = numPassengers;
+    public UserInformation(String name, int age){
         this.name = name;
         this.age = age;
     }
 
-    public int getNumberOfPassengers() {
-    	return passengers;
+    
+    public String getName() {
+    	return name;
     }
     
-    public String getName(int passengerNumber) {
-    	return name[passengerNumber];
-    }
-    
-    public int getAge(int passengerNumber) {
-    	return age[passengerNumber];
+    public int getAge() {
+    	return age;
     }
     
     @Override
     public String toString() {
     	String str = "";
-    	for(int i = 0; i < passengers; i++) {
-    		str += "Passenger #" + (i+1) + ": " + name[i] + ", " + age[i] + " years old.\n";
-    	}
+    		str += "Passenger : " + name + ", " + age + " years old.\n";
     	return str;
     }
     
