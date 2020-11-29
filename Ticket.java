@@ -2,24 +2,24 @@ package airplaneBookingSystem;
 
 public class Ticket {
 
-    private Airplane a;
-    private UserInformation info;
+	private Airplane a;
+	private UserInformation info;
+	private int seatRow;
+	private int seatCol;
 
-    public Ticket(Airplane a, UserInformation uinfo){
-        this.a = a;
-        info = uinfo;
-    }
+	public Ticket(Airplane a, UserInformation uinfo, int row, int col) {
+		this.a = a;
+		info = uinfo;
+		seatRow = row;
+		seatCol = col;
+	}
 
-    public void updateTicket(Airplane a){
-        this.a = a;
-    }
+	@Override
+	public String toString() {
+		String str = "";
+		str += "Passenger: " + info.toString() + "\nAirplane: " + a.toString() + "\nRow: " + seatRow + "\nCol: "
+				+ seatCol;
+		return str;
+	}
 
-    @Override
-    public String toString() {
-    	String str = "";
-    	str += a.toString() + info.toString();
-    	return str;
-    }
-    
-    
 }

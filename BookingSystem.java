@@ -18,6 +18,7 @@ public class BookingSystem {
 	String chosenFrom;
 	String chosenTo;
 	Date chosenDate;
+	Ticket finalTicket;
 	static Scanner sc;
 	
 	private static BlockingQueue<Message> queue = new LinkedBlockingQueue<>(1);
@@ -80,6 +81,10 @@ public class BookingSystem {
 			}
 		}
 
+	}
+	
+	public void updateTicket(Airplane chosenAirplane, UserInformation uInfo, int row, int col) {
+		finalTicket = new Ticket(chosenAirplane, uInfo, row, col);
 	}
 
 	public void updateSeats(int chosenRow, int chosenCol) {
