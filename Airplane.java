@@ -1,4 +1,4 @@
-package airlineBookingSystem;
+package airplaneBookingSystem;
 
 import java.util.Random;
 

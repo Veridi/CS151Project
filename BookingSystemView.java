@@ -360,7 +360,7 @@ public class BookingSystemView extends JFrame {
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		JLabel fullName = new JLabel("Passanger: ");
+		JLabel fullName = new JLabel("Passenger: ");
 		JLabel flightSelect = new JLabel("Selected flight: ");
 		JLabel row = new JLabel("Row: ");
 		JLabel col = new JLabel("Col: ");
@@ -397,16 +397,29 @@ public class BookingSystemView extends JFrame {
 		// click close to close
 
 		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(10, 10, 10, 10); // top left bottom right
+		
+		JLabel prompt = new JLabel("Your flight has been booked. Thank you for using our Flight Booking System.");
 
-		JLabel prompt = new JLabel("Your flight has been booked.\nThank you for using our Flight Booking System.");
-
-		JButton printButton = new JButton("Print");
-		panel.add(printButton);
-		panel.setLayout(new FlowLayout());
-		printButton.addActionListener(new ActionListener() {
+		JButton bookButton = new JButton("Book");
+		bookButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("THIS SHOULD OUTPUT TICKET INFORMATION");
+				System.out.println("Passenger: " + model.userInfo);
+				System.out.println("Airplane: " + model.chosenAirplane);
+				System.out.println("Seat: " + model.chosenAirplane.row + ", " + model.chosenAirplane.col);
+				
+				JButton backButton = new JButton("Back");
+				c.gridx = 2;
+				c.gridy = 1;
+				panel.add(backButton, c);
+				backButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//GO BACK TO FIRST SCREEN
+					}
+				});
 
 			}
 		});
@@ -422,8 +435,7 @@ public class BookingSystemView extends JFrame {
 			}
 		});
 
-		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(10, 10, 10, 10); // top left bottom right
+		
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
@@ -432,7 +444,7 @@ public class BookingSystemView extends JFrame {
 
 		c.gridx = 0;
 		c.gridy = 1;
-		panel.add(printButton, c);
+		panel.add(bookButton, c);
 
 		c.gridx = 1;
 		c.gridy = 1;
