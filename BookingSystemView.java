@@ -21,8 +21,9 @@ public class BookingSystemView extends JFrame {
 	private static String[] months = { "1", "2", "3", "4", "5", "6", "7", "8", "10", "11", "12" };
 	private static String[] days = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15",
 			"16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" };
-	private static String[] minutes = { "15", "30", "45", "0" };
-	private static String[] hour = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "0" };
+	private static String[] minutes = { "0",  "15", "30", "45"};
+	private static String[] hour = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
+			"15", "16", "17", "18", "19", "20", "21", "22", "23" };
 	public int row;
 	public int col;
 
@@ -86,9 +87,9 @@ public class BookingSystemView extends JFrame {
 
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-//		c.insets = new Insets(10, 10, 10, 10);  //external padding (in pixels)
-		c.ipadx = 10; // internal padding (in pixels)
-		c.ipady = 10;
+		c.insets = new Insets(0, 0, 0, 0); // external padding (in pixels) top, left, bottom, right
+		c.ipadx = 5; // internal padding (in pixels)
+		c.ipady = 5;
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -171,31 +172,14 @@ public class BookingSystemView extends JFrame {
 	}
 
 	public void flightSelectScreen() {
-		panel.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		
 		ArrayList<Airplane> arr = model.getFilteredAirplanes();
 		Airplane[] airplanes = new Airplane[arr.size()];
 		for (int i = 0; i < airplanes.length; i++) {
 			airplanes[i] = model.getFilteredAirplanes().get(i);
 		}
 		JLabel flightSelect = new JLabel("Select a flight:");
-
 		JComboBox<Airplane> listOfFlights = new JComboBox<>(airplanes);
-
 		JButton confirm = new JButton("Confirm");
-
-		c.gridx = 0;
-		c.gridy = 0;
-		panel.add(flightSelect, c);
-		
-		c.gridx = 0;
-		c.gridy = 1;
-		panel.add(listOfFlights, c);
-		
-		c.gridx = 0;
-		c.gridy = 2;
-		panel.add(confirm);
 		confirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -204,6 +188,25 @@ public class BookingSystemView extends JFrame {
 				showNextSlide();
 			}
 		});
+
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(5, 0, 5, 0); // external padding (in pixels) top, left, bottom, right
+		c.ipadx = 5; // internal padding (in pixels)
+		c.ipady = 5;
+
+		c.gridx = 0;
+		c.gridy = 0;
+		panel.add(flightSelect, c);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		panel.add(listOfFlights, c);
+
+		c.gridx = 0;
+		c.gridy = 2;
+		panel.add(confirm, c);
+
 	}
 
 	public void userInfoSelectScreen() {
@@ -214,15 +217,6 @@ public class BookingSystemView extends JFrame {
 		JTextField ageBox = new JTextField(25);
 
 		JButton confirm = new JButton("Confirm");
-
-		panel.add(fullName);
-		panel.add(age);
-		panel.add(nameBox);
-		panel.add(ageBox);
-		panel.add(confirm);
-
-		panel.setLayout(new FlowLayout());
-
 		confirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -233,6 +227,33 @@ public class BookingSystemView extends JFrame {
 				showNextSlide();
 			}
 		});
+
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(5, 0, 5, 0); // external padding (in pixels) top, left, bottom, right
+		c.ipadx = 5; // internal padding (in pixels)
+		c.ipady = 5;
+
+		c.gridx = 0;
+		c.gridy = 0;
+		panel.add(fullName, c);
+
+		c.gridx = 1;
+		c.gridy = 0;
+		panel.add(nameBox, c);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		panel.add(age, c);
+		c.gridx = 1;
+		c.gridy = 1;
+		panel.add(ageBox, c);
+
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		panel.add(confirm, c);
+
 	}
 
 	public void seatSelectScreen() {
