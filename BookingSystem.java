@@ -76,40 +76,38 @@ public class BookingSystem {
 		chosenAirplane.takeSeat(chosenRow, chosenCol);
 	}
 
-	public void selectSeats() {
-
-		System.out.println("Choose a seat for passenger");
-		// print seats
-		System.out.println("Available seats are marked with an 'O', 'X' are unavailable");
-		chosenAirplane.printSeats();
-		System.out.print("Enter chosen row: ");
-		int chosenRow = sc.nextInt();
-		System.out.print("Enter chosen column: ");
-		int chosenCol = sc.nextInt();
-		// check if selected seat is actually available
-		// update the selected seat to unavailable
-
-	}
+//	public void selectSeats() {
+//		System.out.println("Choose a seat for passenger");
+//		// print seats
+//		System.out.println("Available seats are marked with an 'O', 'X' are unavailable");
+//		chosenAirplane.printSeats();
+//		System.out.print("Enter chosen row: ");
+//		int chosenRow = sc.nextInt();
+//		System.out.print("Enter chosen column: ");
+//		int chosenCol = sc.nextInt();
+//		// check if selected seat is actually available
+//		// update the selected seat to unavailable
+//	}
 
 	public void updateUserInformation(String passengerName, int passengerAge) {
 		userInfo = new UserInformation(passengerName, passengerAge);
 	}
 
-	public void getUserInformation() {
-		String passengerNames;
-		int passengerAge;
-		System.out.println("Enter passenger's first and last name.");
-		// String name = sc.nextLine();
-		String firstName = sc.next();
-		String lastName = sc.next();
-		passengerNames = firstName + " " + lastName;
-		System.out.println(passengerNames);
-		System.out.println("Enter passenger's age");
-		int age = sc.nextInt();
-		passengerAge = age;
-		userInfo = new UserInformation(passengerNames, passengerAge);
-
-	}
+//	public void getUserInformation() {
+//		String passengerNames;
+//		int passengerAge;
+//		System.out.println("Enter passenger's first and last name.");
+//		// String name = sc.nextLine();
+//		String firstName = sc.next();
+//		String lastName = sc.next();
+//		passengerNames = firstName + " " + lastName;
+//		System.out.println(passengerNames);
+//		System.out.println("Enter passenger's age");
+//		int age = sc.nextInt();
+//		passengerAge = age;
+//		userInfo = new UserInformation(passengerNames, passengerAge);
+//
+//	}
 	
 	public void updateFlightInformation(String from, String to, String month, String day, String hour, String minute) {
 		int chosenMonth = Integer.parseInt(month);
@@ -146,6 +144,10 @@ public class BookingSystem {
 	
 	public ArrayList<Airplane> getFilteredAirplanes(){
 		return filteredAirplanes;
+	}
+	
+	public Airplane getChosenAirplane() {
+		return chosenAirplane;
 	}
 
 	public String listOfCities() {

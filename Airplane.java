@@ -37,6 +37,10 @@ public class Airplane implements Comparable<Airplane> {
 	public Date getDate() {
 		return date;
 	}
+	
+	public boolean[][] getSeats(){
+		return seats;
+	}
 
 	public String getFrom() {
 		return from;
