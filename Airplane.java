@@ -1,4 +1,4 @@
-package airplaneBookingSystem;
+package airlineBookingSystem;
 
 import java.util.Random;
 
@@ -8,9 +8,11 @@ public class Airplane implements Comparable<Airplane> {
 	private String to;
 	private Date date;
 	private boolean[][] seats;
-	
+	public String row;
+	public String col;
+
 	public Airplane() {
-		
+
 	}
 
 	public Airplane(String from, String to, Date date) {
@@ -37,7 +39,7 @@ public class Airplane implements Comparable<Airplane> {
 	public Date getDate() {
 		return date;
 	}
-	
+
 	public boolean[][] getSeats(){
 		return seats;
 	}
@@ -81,7 +83,7 @@ public class Airplane implements Comparable<Airplane> {
 				initialRow += "0";
 			}
 			initialRow += i + "  ";
-			
+
 		}
 		System.out.println(initialRow);
 		for (int row = 0; row < seats.length; row++) {
@@ -103,7 +105,8 @@ public class Airplane implements Comparable<Airplane> {
 	}
 
 	public void takeSeat(int chosenRow, int chosenCol) {
+		row = Integer.toString(chosenRow);
+		col = Integer.toString(chosenCol);
 		seats[chosenRow][chosenCol] = true;
-		
 	}
 }

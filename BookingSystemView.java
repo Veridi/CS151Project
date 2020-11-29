@@ -200,6 +200,41 @@ public class BookingSystemView extends JFrame {
 		});
 	}
 
+	public void confirmScreen() {
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+
+		JLabel fullName = new JLabel("Passanger: ");
+		JLabel flightSelect = new JLabel("Selected flight: ");
+		JLabel row = new JLabel("Row: ");
+		JLabel col = new JLabel("Col: ");
+
+		JTextField nameBox = new JTextField(model.userInfo.toString());
+		JTextField flight = new JTextField(model.chosenAirplane.toString());
+		JTextField selectedRow = new JTextField(model.chosenAirplane.row);
+		JTextField selectCol = new JTextField(model.chosenAirplane.col);
+
+		c.gridx = 0;
+		c.gridy = 0;
+		panel.add(fullName);
+		panel.add(nameBox);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		panel.add(flightSelect);
+		panel.add(flight);
+
+		c.gridx = 0;
+		c.gridy = 2;
+		panel.add(row);
+		panel.add(selectedRow);
+
+		c.gridx = 0;
+		c.gridy = 3;
+		panel.add(col);
+		panel.add(selectCol);
+	}
+
 	public void flightSelectScreen() {
 		ArrayList<Airplane> arr = model.getFilteredAirplanes();
 		Airplane[] airplanes = new Airplane[arr.size()];
