@@ -1,7 +1,7 @@
 package airplaneBookingSystem;
 
 public class NewBookingMessage implements Message{
-
+	
 }
 
 class RightClickMessage implements Message {

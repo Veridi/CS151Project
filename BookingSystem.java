@@ -2,9 +2,10 @@ package airplaneBookingSystem;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class BookingSystem {
 
@@ -18,11 +19,20 @@ public class BookingSystem {
 	String chosenTo;
 	Date chosenDate;
 	static Scanner sc;
+	
+	private static BlockingQueue<Message> queue = new LinkedBlockingQueue<>(1);
+	private static BookingSystemView view;
 
 	public static void main(String[] args) {
 
 		BookingSystem bs = new BookingSystem();
-		BookingSystemView bsv = new BookingSystemView(bs);
+		
+		view = BookingSystemView.init(bs, queue);
+		Controller controller = new Controller(view, queue);
+		
+		controller.mainLoop();
+		view.dispose();
+		queue.clear();
 		//sc = new Scanner(System.in);
 		//bs.selectUserFlight();
 		//bs.getUserInformation();

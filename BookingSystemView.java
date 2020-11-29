@@ -7,6 +7,9 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,19 +33,37 @@ public class BookingSystemView extends JFrame {
 	int screenNumber;
 	BookingSystem model;
 	JPanel panel;
+	
+	private JFrame bookingFrame;
+	private BlockingQueue<Message> queue;
+	private List<Valve> valves = new LinkedList<Valve>();
+	private BookingSystemView view;
+	
+	public static BookingSystemView init(BookingSystem bs, BlockingQueue<Message> queue) {
+		return new BookingSystemView(bs, queue);
+	}
 
-	public BookingSystemView(BookingSystem bs) {
+	public BookingSystemView(BookingSystem bs, BlockingQueue<Message> queue) {
 		model = bs;
 		screenNumber = 0;
 		panel = new JPanel();
 		this.add(panel);
+		
+		this.queue = queue;
 
 		setTitle("BookingSystem GUI");
 		setSize(1400, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		showNextSlide();
+		//showNextSlide();
 
+	}
+	
+	public interface Valve {
+		/**
+		 * Performs certain action in response to message
+		 */
+		public ValveResponse execute(Message message);
 	}
 
 	public void showNextSlide() {
@@ -154,19 +175,27 @@ public class BookingSystemView extends JFrame {
 		c.gridy = 6;
 		panel.add(confirm, c);
 
-		confirm.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		confirm.addActionListener(event -> {
+			try {
 				String departureLocation = (String) departures.getSelectedItem();
-				String arrivalLocation = (String) destinations.getSelectedItem();
-				String departMonth = (String) departureMonth.getSelectedItem();
-				String departDay = (String) departureDay.getSelectedItem();
-				String departHour = (String) departureHour.getSelectedItem();
-				String departMinute = (String) departureMinute.getSelectedItem();
-				model.updateFlightInformation(departureLocation, arrivalLocation, departMonth, departDay, departHour,
-						departMinute);
-
-				showNextSlide();
+                String arrivalLocation = (String) destinations.getSelectedItem();
+                String departMonth = (String) departureMonth.getSelectedItem();
+                String departDay = (String) departureDay.getSelectedItem();
+                String departHour = (String) departureHour.getSelectedItem();
+                String departMinute = (String) departureMinute.getSelectedItem();
+                boolean date = true;
+                model.updateFlightInformation(departureLocation, arrivalLocation, departMonth, departDay, departHour,
+                        departMinute);
+                if ((departMonth == "2" && (departDay == "29" || departDay == "30" || departDay == "31"))) {
+					date = false; // skip feb 29th, 30th, 31st
+				} else if (departDay == "31" && (departMonth == "4" || departMonth == "6" || departMonth == "9" || departMonth == "11")) {
+					date = false; // skip months without 31st
+				}
+				if (departureLocation != arrivalLocation && date == true) {
+					queue.put(new NewBookingMessage());
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		});
 	}
@@ -217,14 +246,22 @@ public class BookingSystemView extends JFrame {
 		JTextField ageBox = new JTextField(25);
 
 		JButton confirm = new JButton("Confirm");
-		confirm.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		confirm.addActionListener(event -> {
+			try {
 				String name = nameBox.getText();
-				int age = Integer.parseInt(ageBox.getText());
-
-				model.updateUserInformation(name, age);
-				showNextSlide();
+				if (name.length() == 0) {
+					throw new Exception();
+				}
+				int newAge = Integer.parseInt(ageBox.getText());
+				model.updateUserInformation(name, newAge);
+				queue.put(new NewBookingMessage());
+			} catch (Exception e) {
+				JFrame errorFrame = new JFrame("Error Message");
+				errorFrame.setSize(400, 400);
+				JLabel errorText = new JLabel("Error. Please fill out the required fields.");
+				errorFrame.add(errorText);
+				errorFrame.pack();
+				errorFrame.setVisible(true);
 			}
 		});
 
