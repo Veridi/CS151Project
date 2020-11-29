@@ -24,7 +24,7 @@ public class BookingSystemView extends JFrame {
 	private static String[] months = { "1", "2", "3", "4", "5", "6", "7", "8", "10", "11", "12" };
 	private static String[] days = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15",
 			"16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" };
-	private static String[] minutes = { "0",  "15", "30", "45"};
+	private static String[] minutes = { "0", "15", "30", "45" };
 	private static String[] hour = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
 			"15", "16", "17", "18", "19", "20", "21", "22", "23" };
 	public int row;
@@ -33,12 +33,12 @@ public class BookingSystemView extends JFrame {
 	int screenNumber;
 	BookingSystem model;
 	JPanel panel;
-	
+
 	private JFrame bookingFrame;
 	private BlockingQueue<Message> queue;
 	private List<Valve> valves = new LinkedList<Valve>();
 	private BookingSystemView view;
-	
+
 	public static BookingSystemView init(BookingSystem bs, BlockingQueue<Message> queue) {
 		return new BookingSystemView(bs, queue);
 	}
@@ -48,17 +48,17 @@ public class BookingSystemView extends JFrame {
 		screenNumber = 0;
 		panel = new JPanel();
 		this.add(panel);
-		
+
 		this.queue = queue;
 
 		setTitle("BookingSystem GUI");
 		setSize(1400, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		//showNextSlide();
+		// showNextSlide();
 
 	}
-	
+
 	public interface Valve {
 		/**
 		 * Performs certain action in response to message
@@ -178,17 +178,18 @@ public class BookingSystemView extends JFrame {
 		confirm.addActionListener(event -> {
 			try {
 				String departureLocation = (String) departures.getSelectedItem();
-                String arrivalLocation = (String) destinations.getSelectedItem();
-                String departMonth = (String) departureMonth.getSelectedItem();
-                String departDay = (String) departureDay.getSelectedItem();
-                String departHour = (String) departureHour.getSelectedItem();
-                String departMinute = (String) departureMinute.getSelectedItem();
-                boolean date = true;
-                model.updateFlightInformation(departureLocation, arrivalLocation, departMonth, departDay, departHour,
-                        departMinute);
-                if ((departMonth == "2" && (departDay == "29" || departDay == "30" || departDay == "31"))) {
+				String arrivalLocation = (String) destinations.getSelectedItem();
+				String departMonth = (String) departureMonth.getSelectedItem();
+				String departDay = (String) departureDay.getSelectedItem();
+				String departHour = (String) departureHour.getSelectedItem();
+				String departMinute = (String) departureMinute.getSelectedItem();
+				boolean date = true;
+				model.updateFlightInformation(departureLocation, arrivalLocation, departMonth, departDay, departHour,
+						departMinute);
+				if ((departMonth == "2" && (departDay == "29" || departDay == "30" || departDay == "31"))) {
 					date = false; // skip feb 29th, 30th, 31st
-				} else if (departDay == "31" && (departMonth == "4" || departMonth == "6" || departMonth == "9" || departMonth == "11")) {
+				} else if (departDay == "31"
+						&& (departMonth == "4" || departMonth == "6" || departMonth == "9" || departMonth == "11")) {
 					date = false; // skip months without 31st
 				}
 				if (departureLocation != arrivalLocation && date == true) {
@@ -198,41 +199,6 @@ public class BookingSystemView extends JFrame {
 				e.printStackTrace();
 			}
 		});
-	}
-
-	public void confirmScreen() {
-		panel.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-
-		JLabel fullName = new JLabel("Passanger: ");
-		JLabel flightSelect = new JLabel("Selected flight: ");
-		JLabel row = new JLabel("Row: ");
-		JLabel col = new JLabel("Col: ");
-
-		JTextField nameBox = new JTextField(model.userInfo.toString());
-		JTextField flight = new JTextField(model.chosenAirplane.toString());
-		JTextField selectedRow = new JTextField(model.chosenAirplane.row);
-		JTextField selectCol = new JTextField(model.chosenAirplane.col);
-
-		c.gridx = 0;
-		c.gridy = 0;
-		panel.add(fullName);
-		panel.add(nameBox);
-
-		c.gridx = 0;
-		c.gridy = 1;
-		panel.add(flightSelect);
-		panel.add(flight);
-
-		c.gridx = 0;
-		c.gridy = 2;
-		panel.add(row);
-		panel.add(selectedRow);
-
-		c.gridx = 0;
-		c.gridy = 3;
-		panel.add(col);
-		panel.add(selectCol);
 	}
 
 	public void flightSelectScreen() {
@@ -391,31 +357,85 @@ public class BookingSystemView extends JFrame {
 	}
 
 	public void confirmScreen() {
-		System.out.println("slide 4 ran");
-		JButton confirm = new JButton("ConfirmConfirmScreen");
-		panel.add(confirm);
-		panel.setLayout(new FlowLayout());
-		confirm.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("confirm pressed");
-				showNextSlide();
-			}
-		});
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+
+		JLabel fullName = new JLabel("Passanger: ");
+		JLabel flightSelect = new JLabel("Selected flight: ");
+		JLabel row = new JLabel("Row: ");
+		JLabel col = new JLabel("Col: ");
+
+		JTextField nameBox = new JTextField(model.userInfo.toString());
+		JTextField flight = new JTextField(model.chosenAirplane.toString());
+		JTextField selectedRow = new JTextField(model.chosenAirplane.row);
+		JTextField selectCol = new JTextField(model.chosenAirplane.col);
+
+		c.gridx = 0;
+		c.gridy = 0;
+		panel.add(fullName);
+		panel.add(nameBox);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		panel.add(flightSelect);
+		panel.add(flight);
+
+		c.gridx = 0;
+		c.gridy = 2;
+		panel.add(row);
+		panel.add(selectedRow);
+
+		c.gridx = 0;
+		c.gridy = 3;
+		panel.add(col);
+		panel.add(selectCol);
 	}
 
 	public void printTicketScreen() {
-		System.out.println("slide 5 ran");
-		JButton confirm = new JButton("Close");
-		panel.add(confirm);
+		// "your ticket has been booked"
+		// click print button to output to System.out.println
+		// click close to close
+
+		panel.setLayout(new GridBagLayout());
+
+		JLabel prompt = new JLabel("Your flight has been booked.\nThank you for using our Flight Booking System.");
+
+		JButton printButton = new JButton("Print");
+		panel.add(printButton);
 		panel.setLayout(new FlowLayout());
-		confirm.addActionListener(new ActionListener() {
+		printButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("confirm pressed");
+				System.out.println("THIS SHOULD OUTPUT TICKET INFORMATION");
+
+			}
+		});
+
+		JButton closeButton = new JButton("Close");
+		panel.add(closeButton);
+		panel.setLayout(new FlowLayout());
+		closeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 
 			}
 		});
+
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(10, 10, 10, 10); // top left bottom right
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 2;
+		panel.add(prompt, c);
+		c.gridwidth = 1;
+
+		c.gridx = 0;
+		c.gridy = 1;
+		panel.add(printButton, c);
+
+		c.gridx = 1;
+		c.gridy = 1;
+		panel.add(closeButton, c);
 	}
 }
