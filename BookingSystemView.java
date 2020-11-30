@@ -357,38 +357,68 @@ public class BookingSystemView extends JFrame {
 	}
 
 	public void confirmScreen() {
+		JLabel fullName = new JLabel("Passenger:");
+		JLabel flightSelect = new JLabel("Selected flight:");
+		JLabel row = new JLabel("Row:");
+		JLabel col = new JLabel("Col:");
+
+		JLabel nameBox = new JLabel(model.userInfo.toString());
+		JLabel flight = new JLabel(model.chosenAirplane.toString());
+		JLabel selectedRow = new JLabel(model.chosenAirplane.row);
+		JLabel selectCol = new JLabel(model.chosenAirplane.col);
+
+		JButton confirm = new JButton("Confirm");
+		confirm.setPreferredSize(new Dimension(200,10));
+
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-
-		JLabel fullName = new JLabel("Passenger: ");
-		JLabel flightSelect = new JLabel("Selected flight: ");
-		JLabel row = new JLabel("Row: ");
-		JLabel col = new JLabel("Col: ");
-
-		JTextField nameBox = new JTextField(model.userInfo.toString());
-		JTextField flight = new JTextField(model.chosenAirplane.toString());
-		JTextField selectedRow = new JTextField(model.chosenAirplane.row);
-		JTextField selectCol = new JTextField(model.chosenAirplane.col);
+		c.ipadx = 10;
+		c.ipady = 10;
 
 		c.gridx = 0;
 		c.gridy = 0;
-		panel.add(fullName);
-		panel.add(nameBox);
+		panel.add(fullName,c);
+
+		c.gridx = 1;
+		c.gridy = 0;
+		panel.add(nameBox,c);
 
 		c.gridx = 0;
 		c.gridy = 1;
-		panel.add(flightSelect);
-		panel.add(flight);
+		panel.add(flightSelect,c);
 
+		c.gridx = 1;
+		c.gridy = 1;
+		panel.add(flight,c);
+
+		System.out.println(model.chosenAirplane.row);
 		c.gridx = 0;
 		c.gridy = 2;
-		panel.add(row);
-		panel.add(selectedRow);
+		panel.add(row,c);
 
+		c.gridx = 1;
+		c.gridy = 2;
+		panel.add(selectedRow,c);
+
+		System.out.println(model.chosenAirplane.col);
 		c.gridx = 0;
 		c.gridy = 3;
-		panel.add(col);
-		panel.add(selectCol);
+		panel.add(col,c);
+
+		c.gridx = 1;
+		c.gridy = 3;
+		panel.add(selectCol,c);
+
+		c.gridx = 1;
+		c.gridy = 4;
+		panel.add(confirm, c);
+
+		confirm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				model.updateTicket(model.chosenAirplane(), model.userInfo, model.chosenAirplane.row, model.ChosenAirplane.col);
+			}
+		});
 	}
 
 	public void printTicketScreen() {
