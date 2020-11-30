@@ -1,7 +1,6 @@
 package airplaneBookingSystem;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -9,8 +8,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 import javax.swing.JButton;
@@ -36,10 +33,7 @@ public class BookingSystemView extends JFrame {
 	BookingSystem model;
 	JPanel panel;
 
-	private JFrame bookingFrame;
 	private BlockingQueue<Message> queue;
-	private List<Valve> valves = new LinkedList<Valve>();
-	private BookingSystemView view;
 
 	public static BookingSystemView init(BookingSystem bs, BlockingQueue<Message> queue) {
 		return new BookingSystemView(bs, queue);
@@ -54,10 +48,10 @@ public class BookingSystemView extends JFrame {
 		this.queue = queue;
 
 		setTitle("BookingSystem GUI");
-        setSize(1400, 800);
-        setLocation(260, 140);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+		setSize(1400, 800);
+		setLocation(260, 140);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
 		// showNextSlide();
 
 	}
@@ -88,7 +82,7 @@ public class BookingSystemView extends JFrame {
 		panel.repaint();
 		screenNumber++;
 	}
-	
+
 	public void setScreenNumber(int x) {
 		this.screenNumber = x;
 	}
@@ -255,24 +249,24 @@ public class BookingSystemView extends JFrame {
 
 		JButton confirm = new JButton("Confirm");
 		confirm.addActionListener(event -> {
-            try {
-                String name = nameBox.getText();
-                if (name.length() == 0) {
-                    throw new Exception();
-                }
-                int newAge = Integer.parseInt(ageBox.getText());
-                model.updateUserInformation(name, newAge);
-                queue.put(new ConfirmMessage());
-            } catch (Exception e) {
-                JFrame errorFrame = new JFrame("Error Message");
-                JLabel errorText = new JLabel("Error. Please fill out the required fields.");
-                errorFrame.setLayout(new GridBagLayout());
-                errorFrame.add(errorText);
-                errorFrame.setSize(260, 150);
-                errorFrame.setLocation(830, 465);
-                errorFrame.setVisible(true);
-            }
-        });
+			try {
+				String name = nameBox.getText();
+				if (name.length() == 0) {
+					throw new Exception();
+				}
+				int newAge = Integer.parseInt(ageBox.getText());
+				model.updateUserInformation(name, newAge);
+				queue.put(new ConfirmMessage());
+			} catch (Exception e) {
+				JFrame errorFrame = new JFrame("Error Message");
+				JLabel errorText = new JLabel("Error. Please fill out the required fields.");
+				errorFrame.setLayout(new GridBagLayout());
+				errorFrame.add(errorText);
+				errorFrame.setSize(260, 150);
+				errorFrame.setLocation(830, 465);
+				errorFrame.setVisible(true);
+			}
+		});
 
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -326,7 +320,7 @@ public class BookingSystemView extends JFrame {
 					seatButton = new JToggleButton("O");
 					seatButton.setEnabled(true);
 					JToggleButtonAttachment attachment = new JToggleButtonAttachment(seatButton, row, col);
-					
+
 					seatButton.addActionListener(event -> {
 						try {
 							if (seatButton.isSelected()) {
@@ -338,16 +332,13 @@ public class BookingSystemView extends JFrame {
 						}
 					});
 					/*
-					seatButton.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							if (seatButton.isSelected()) {
-								model.updateSeats(attachment.getX(), attachment.getY());
-//								System.out.println("selected button: " + attachment.getX() + ", " + attachment.getY());
-							}
-						}
-					});
-					*/
+					 * seatButton.addActionListener(new ActionListener() {
+					 * 
+					 * @Override public void actionPerformed(ActionEvent e) { if
+					 * (seatButton.isSelected()) { model.updateSeats(attachment.getX(),
+					 * attachment.getY()); // System.out.println("selected button: " +
+					 * attachment.getX() + ", " + attachment.getY()); } } });
+					 */
 				}
 				seatsConstraint.gridx++;
 				seatsGridBag.add(seatButton, seatsConstraint);
@@ -356,14 +347,11 @@ public class BookingSystemView extends JFrame {
 			seatsConstraint.gridy++;
 		}
 		/*
-		JButton confirm = new JButton("Confirm");
-		confirm.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				showNextSlide();
-			}
-		});
-		*/
+		 * JButton confirm = new JButton("Confirm"); confirm.addActionListener(new
+		 * ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) { showNextSlide(); } });
+		 */
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(10, 0, 10, 0); // top left bottom right
@@ -375,7 +363,7 @@ public class BookingSystemView extends JFrame {
 		panel.add(seatsGridBag, c);
 		c.gridx = 0;
 		c.gridy = 2;
-		//panel.add(confirm, c);
+		// panel.add(confirm, c);
 	}
 
 	public void confirmScreen() {
@@ -390,7 +378,7 @@ public class BookingSystemView extends JFrame {
 		JLabel selectCol = new JLabel(model.chosenAirplane.col);
 
 		JButton confirm = new JButton("Confirm");
-		confirm.setPreferredSize(new Dimension(200,10));
+		confirm.setPreferredSize(new Dimension(200, 10));
 
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -399,122 +387,121 @@ public class BookingSystemView extends JFrame {
 
 		c.gridx = 0;
 		c.gridy = 0;
-		panel.add(fullName,c);
+		panel.add(fullName, c);
 
 		c.gridx = 1;
 		c.gridy = 0;
-		panel.add(nameBox,c);
+		panel.add(nameBox, c);
 
 		c.gridx = 0;
 		c.gridy = 1;
-		panel.add(flightSelect,c);
+		panel.add(flightSelect, c);
 
 		c.gridx = 1;
 		c.gridy = 1;
-		panel.add(flight,c);
+		panel.add(flight, c);
 
 		c.gridx = 0;
 		c.gridy = 2;
-		panel.add(row,c);
+		panel.add(row, c);
 
 		c.gridx = 1;
 		c.gridy = 2;
-		panel.add(selectedRow,c);
+		panel.add(selectedRow, c);
 
 		c.gridx = 0;
 		c.gridy = 3;
-		panel.add(col,c);
+		panel.add(col, c);
 
 		c.gridx = 1;
 		c.gridy = 3;
-		panel.add(selectCol,c);
+		panel.add(selectCol, c);
 
 		c.gridx = 1;
 		c.gridy = 4;
 		panel.add(confirm, c);
-		
+
 		confirm.addActionListener(event -> {
 			try {
-				model.updateTicket(model.chosenAirplane, model.userInfo, Integer.parseInt(model.chosenAirplane.row), Integer.parseInt(model.chosenAirplane.col));
+				model.updateTicket(model.chosenAirplane, model.userInfo, Integer.parseInt(model.chosenAirplane.row),
+						Integer.parseInt(model.chosenAirplane.col));
 				queue.put(new ConfirmMessage());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		});
 		/*
-		confirm.addActionListener(new ActionListener() {
+		 * confirm.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) {
+		 * model.updateTicket(model.chosenAirplane, model.userInfo,
+		 * Integer.parseInt(model.chosenAirplane.row),
+		 * Integer.parseInt(model.chosenAirplane.col)); } });
+		 */
+	}
+
+	public void printTicketScreen() {
+		// "your ticket has been booked"
+		// click print button to output to System.out.println
+		// click close to close
+
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new GridLayout(1, 3));
+
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(10, 10, 10, 10); // top left bottom right
+
+		JLabel prompt = new JLabel("Your flight has been booked. Thank you for using our Flight Booking System.");
+
+		JButton backButton = new JButton("Back");
+
+		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				model.updateTicket(model.chosenAirplane, model.userInfo, Integer.parseInt(model.chosenAirplane.row), Integer.parseInt(model.chosenAirplane.col));
+				// use valve responses to GO BACK TO FIRST SCREEN
+				try {
+					queue.put(new NewBookingMessage());
+				} catch (InterruptedException f) {
+					f.printStackTrace();
+				}
 			}
 		});
-		*/
+
+		JButton printButton = new JButton("Print");
+		printButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(model.finalTicket);
+
+			}
+		});
+
+		JButton closeButton = new JButton("Close");
+
+		closeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					queue.put(new QuitMessage());
+				} catch (InterruptedException f) {
+					f.printStackTrace();
+				}
+				setVisible(false);
+
+			}
+		});
+
+		c.gridx = 0;
+		c.gridy = 0;
+		panel.add(prompt, c);
+
+		buttonsPanel.add(printButton, c);
+		buttonsPanel.add(backButton, c);
+		buttonsPanel.add(closeButton, c);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		panel.add(buttonsPanel, c);
 	}
-	
-	public void printTicketScreen() {
-        // "your ticket has been booked"
-        // click print button to output to System.out.println
-        // click close to close
-
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new GridLayout(1, 3));
-
-        panel.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(10, 10, 10, 10); // top left bottom right
-
-        JLabel prompt = new JLabel("Your flight has been booked. Thank you for using our Flight Booking System.");
-        
-        JButton backButton = new JButton("Back");
-        
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // use valve responses to GO BACK TO FIRST SCREEN
-            	try {
-            		queue.put(new NewBookingMessage());
-            	} catch (InterruptedException f) {
-            		f.printStackTrace();
-            	}
-            }
-        });
-
-        JButton printButton = new JButton("Print");
-        printButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(model.finalTicket);
-
-                
-
-            }
-        });
-        
-        JButton closeButton = new JButton("Close");
-
-        closeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	try {
-            		queue.put(new QuitMessage());
-            	} catch (InterruptedException f) {
-            		f.printStackTrace();
-            	}
-                setVisible(false);
-                
-            }
-        });
-		
-        c.gridx = 0;
-        c.gridy = 0;
-        panel.add(prompt, c);
-
-        buttonsPanel.add(printButton, c);
-        buttonsPanel.add(backButton, c);
-        buttonsPanel.add(closeButton, c);
-
-        c.gridx = 0;
-        c.gridy = 1;
-        panel.add(buttonsPanel, c);
-    }
 }

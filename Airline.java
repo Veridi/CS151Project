@@ -16,14 +16,6 @@ public class Airline {
 		airplanes.add(a);
 	}
 
-	private void removeAirplane(int hash) {
-		for (Airplane a : airplanes) {
-			if (a.hashCode() == hash) {
-				airplanes.remove(a);
-			}
-		}
-	}
-
 	public ArrayList<Airplane> getAirplanes() {
 		return airplanes;
 	}
@@ -46,14 +38,6 @@ public class Airline {
 			}
 		}
 		return filteredAirplanes;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	@Override
