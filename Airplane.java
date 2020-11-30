@@ -11,9 +11,6 @@ public class Airplane implements Comparable<Airplane> {
 	public String row;
 	public String col;
 
-	public Airplane() {
-
-	}
 
 	public Airplane(String from, String to, Date date) {
 		this.from = from;
@@ -56,7 +53,18 @@ public class Airplane implements Comparable<Airplane> {
 	// class)
 	@Override
 	public int compareTo(Airplane o) {
-		return 0;
+		int thisInt = from.hashCode();
+		thisInt += to.hashCode();
+		int thatInt = o.getFrom().hashCode();
+		thatInt += o.getTo().hashCode();
+		
+		if(thisInt < thatInt) {
+			return -1;
+		}else if(thisInt > thatInt) {
+			return 1;
+		}else {
+			return this.getDate().compareTo(o.getDate());
+		}
 	}
 
 	public void randomizeSeats() {

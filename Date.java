@@ -62,8 +62,31 @@ public class Date implements Comparable<Date>{
 	//should compare month > day > hour > minute
 	@Override
 	public int compareTo(Date o) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(month < o.month) {
+			return -1;
+		}else if(month > o.month) {
+			return 1;
+		}else {
+			if(day < o.day) {
+				return -1;
+			}else if(day > o.day) {
+				return 1;
+			}else {
+				if(hour < o.hour) {
+					return -1;
+				}else if(hour > o.hour) {
+					return 1;
+				}else {
+					if(minute < o.minute) {
+						return -1;
+					}else if(minute > o.minute) {
+						return 1;
+					}else {
+						return 0;
+					}
+				}
+			}
+		}
 	}
 }
 
