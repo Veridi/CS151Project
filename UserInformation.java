@@ -21,7 +21,7 @@ public class UserInformation {
     @Override
     public String toString() {
     	String str = "";
-    		str += "Passenger : " + name + ", " + age + " years old.\n";
+    		str += name + ", " + age + " years old.";
     	return str;
     }
     

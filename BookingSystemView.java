@@ -413,7 +413,6 @@ public class BookingSystemView extends JFrame {
 		c.gridy = 1;
 		panel.add(flight,c);
 
-		System.out.println(model.chosenAirplane.row);
 		c.gridx = 0;
 		c.gridy = 2;
 		panel.add(row,c);
@@ -422,7 +421,6 @@ public class BookingSystemView extends JFrame {
 		c.gridy = 2;
 		panel.add(selectedRow,c);
 
-		System.out.println(model.chosenAirplane.col);
 		c.gridx = 0;
 		c.gridy = 3;
 		panel.add(col,c);
@@ -466,6 +464,20 @@ public class BookingSystemView extends JFrame {
         c.insets = new Insets(10, 10, 10, 10); // top left bottom right
 
         JLabel prompt = new JLabel("Your flight has been booked. Thank you for using our Flight Booking System.");
+        
+        JButton backButton = new JButton("Back");
+        
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // use valve responses to GO BACK TO FIRST SCREEN
+            	try {
+            		queue.put(new NewBookingMessage());
+            	} catch (InterruptedException f) {
+            		f.printStackTrace();
+            	}
+            }
+        });
 
         JButton printButton = new JButton("Print");
         printButton.addActionListener(new ActionListener() {
@@ -473,22 +485,7 @@ public class BookingSystemView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(model.finalTicket);
 
-                JButton backButton = new JButton("Back");
-                buttonsPanel.add(backButton, c);
-                panel.revalidate();
-                panel.repaint();
                 
-                backButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // use valve responses to GO BACK TO FIRST SCREEN
-                    	try {
-                    		queue.put(new NewBookingMessage());
-                    	} catch (InterruptedException f) {
-                    		f.printStackTrace();
-                    	}
-                    }
-                });
 
             }
         });
@@ -513,6 +510,7 @@ public class BookingSystemView extends JFrame {
         panel.add(prompt, c);
 
         buttonsPanel.add(printButton, c);
+        buttonsPanel.add(backButton, c);
         buttonsPanel.add(closeButton, c);
 
         c.gridx = 0;
