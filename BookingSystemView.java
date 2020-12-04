@@ -423,8 +423,8 @@ public class BookingSystemView extends JFrame {
 
 		confirm.addActionListener(event -> {
 			try {
-				model.updateTicket(model.chosenAirplane, model.userInfo, Integer.parseInt(model.chosenAirplane.row),
-						Integer.parseInt(model.chosenAirplane.col));
+				//model.updateTicket(model.chosenAirplane, model.userInfo, Integer.parseInt(model.chosenAirplane.row),
+				//		Integer.parseInt(model.chosenAirplane.col));
 				queue.put(new ConfirmMessage());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -472,7 +472,58 @@ public class BookingSystemView extends JFrame {
 		printButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(model.finalTicket);
+				JFrame printFrame = new JFrame("Your Ticket");
+				
+				JLabel fullName = new JLabel("Passenger:");
+				JLabel flightSelect = new JLabel("Selected flight:");
+				JLabel row = new JLabel("Row:");
+				JLabel col = new JLabel("Col:");
+
+				JLabel nameBox = new JLabel(model.userInfo.toString());
+				JLabel flight = new JLabel(model.chosenAirplane.toString());
+				JLabel selectedRow = new JLabel(model.chosenAirplane.row);
+				JLabel selectedCol = new JLabel(model.chosenAirplane.col);
+
+				printFrame.setLayout(new GridBagLayout());
+				GridBagConstraints c = new GridBagConstraints();
+				c.ipadx = 10;
+				c.ipady = 10;
+
+				c.gridx = 0;
+				c.gridy = 0;
+				printFrame.add(fullName, c);
+
+				c.gridx = 1;
+				c.gridy = 0;
+				printFrame.add(nameBox, c);
+
+				c.gridx = 0;
+				c.gridy = 1;
+				printFrame.add(flightSelect, c);
+
+				c.gridx = 1;
+				c.gridy = 1;
+				printFrame.add(flight, c);
+
+				c.gridx = 0;
+				c.gridy = 2;
+				printFrame.add(row, c);
+
+				c.gridx = 1;
+				c.gridy = 2;
+				printFrame.add(selectedRow, c);
+
+				c.gridx = 0;
+				c.gridy = 3;
+				printFrame.add(col, c);
+
+				c.gridx = 1;
+				c.gridy = 3;
+				printFrame.add(selectedCol, c);
+				
+				printFrame.setSize(500, 300);
+				printFrame.setLocation(830, 465);
+				printFrame.setVisible(true);
 
 			}
 		});

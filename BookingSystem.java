@@ -83,9 +83,9 @@ public class BookingSystem {
 
 	}
 	
-	public void updateTicket(Airplane chosenAirplane, UserInformation uInfo, int row, int col) {
-		finalTicket = new Ticket(chosenAirplane, uInfo, row, col);
-	}
+//	public void updateTicket(Airplane chosenAirplane, UserInformation uInfo, int row, int col) {
+//		finalTicket = new Ticket(chosenAirplane, uInfo, row, col);
+//	}
 
 	public void updateSeats(int chosenRow, int chosenCol) {
 		chosenAirplane.takeSeat(chosenRow, chosenCol);
