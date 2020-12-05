@@ -9,7 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class BookingSystem {
 
-	public static final String[] DESTINATIONS = new String[] { "OAKLAND", "SAN_JOSE", "SACRAMENTO" };
+	public static final String[] DESTINATIONS = new String[] { "OAKLAND", "SAN_JOSE", "SACRAMENTO", "LOS_ANGELES", "SAN_DIEGO", "MOSCOW" };
 
 	static ArrayList<Airline> airlines;
 	ArrayList<Airplane> filteredAirplanes;
