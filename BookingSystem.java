@@ -18,7 +18,6 @@ public class BookingSystem {
 	String chosenFrom;
 	String chosenTo;
 	Date chosenDate;
-	Ticket finalTicket;
 	static Scanner sc;
 	
 	private static BlockingQueue<Message> queue = new LinkedBlockingQueue<>(1);
